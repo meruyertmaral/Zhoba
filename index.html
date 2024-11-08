@@ -1,5 +1,104 @@
-<html>
-<h1>qwertyuiop<h1>
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Уақытты есепке алу жүйесі</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        .task-form, .task-list {
+            margin-top: 20px;
+        }
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .task-item:last-child {
+            border-bottom: none;
+        }
+        .task-controls {
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Уақытты есепке алу жүйесі</h1>
+
+        <div class="task-form">
+            <h2>Тапсырма қосу</h2>
+            <input type="text" id="taskName" placeholder="Тапсырма атауы">
+            <input type="datetime-local" id="deadline" placeholder="Дедлайнды таңдаңыз">
+            <button onclick="addTask()">Қосу</button>
+        </div>
+
+        <div class="task-list">
+            <h2>Тапсырмалар тізімі</h2>
+            <div id="tasks"></div>
+        </div>
+    </div>
+
+    <script>
+        function addTask() {
+            const taskName = document.getElementById("taskName").value;
+            const deadline = document.getElementById("deadline").value;
+
+            if (taskName && deadline) {
+                const taskList = document.getElementById("tasks");
+                
+                // Тапсырманы көрсету
+                const taskItem = document.createElement("div");
+                taskItem.className = "task-item";
+                taskItem.innerHTML = `
+                    <span>${taskName} - ${deadline}</span>
+                    <div class="task-controls">
+                        <button onclick="markComplete(this)">Аяқталды</button>
+                        <button onclick="deleteTask(this)">Жою</button>
+                    </div>
+                `;
+                taskList.appendChild(taskItem);
+
+                // Форманы тазалау
+                document.getElementById("taskName").value = "";
+                document.getElementById("deadline").value = "";
+            } else {
+                alert("Барлық өрістерді толтырыңыз!");
+            }
+        }
+
+        function markComplete(button) {
+            const taskItem = button.parentNode.parentNode;
+            taskItem.style.textDecoration = "line-through";
+        }
+
+        function deleteTask(button) {
+            const taskItem = button.parentNode.parentNode;
+            taskItem.remove();
+        }
+    </script>
+</body>
 </html>
+
 
 
