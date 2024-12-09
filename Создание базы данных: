@@ -1,0 +1,41 @@
+CREATE DATABASE time_tracking;
+
+USE time_tracking;
+
+CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE projects (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    start_date DATE,
+    end_date DATE,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE tasks (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    project_id INT NOT NULL,
+    title VARCHAR(100) NOT NULL,
+    description TEXT,
+    deadline DATE,
+    status ENUM('Not Started', 'In Progress', 'Completed') DEFAULT 'Not Started',
+    FOREIGN KEY (project_id) REFERENCES projects(id)
+);
+
+CREATE TABLE time_logs (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    task_id INT NOT NULL,
+    user_id INT NOT NULL,
+    time_spent DECIMAL(10, 2),  -- Уақытты сағат түрінде сақтау
+    log_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (task_id) REFERENCES tasks(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
