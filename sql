@@ -1,0 +1,10 @@
+CREATE TABLE Projects (
+    ProjectID INT AUTO_INCREMENT PRIMARY KEY,
+    ProjectName VARCHAR(255) NOT NULL,
+    Description TEXT,
+    StartDate DATE,
+    EndDate DATE,
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UserID INT NOT NULL,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE
+);
