@@ -1,0 +1,26 @@
+<?php
+include('db.php');
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit();
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $task_id = $_POST['task_id'];
+    $time_spent = $_POST['time_spent'];
+
+    $sql = "INSERT INTO time_logs (task_id, user_id, time_spent) VALUES (?, ?, ?)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$task_id, $_SESSION['user_id'], $time_spent]);
+
+    echo "Уақыт тіркелді!";
+}
+?>
+
+<form method="POST">
+    <input type="hidden" name="task_id" value="<?= $_GET['task_id'] ?>">
+    <input type="number" name="time_spent" placeholder="Уақыт (сағат)" required>
+    <button type="submit">Тіркеу</button>
+</form>
